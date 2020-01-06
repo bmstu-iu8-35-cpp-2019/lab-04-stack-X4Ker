@@ -1,6 +1,52 @@
-// Copyright 2018 Your Name <your_email>
+// Copyright 2020 Paul Nolan pasha230899@gmail.com
 
 #ifndef INCLUDE_HEADER_HPP_
 #define INCLUDE_HEADER_HPP_
 
-#endif // INCLUDE_HEADER_HPP_
+#include <Element.h>
+
+template <typename T>
+class Stack {
+ private:
+  size_t size;
+  Element<T> head_value;
+
+ public:
+  Stack();
+  ~Stack() = default;
+  void push(T&& value) noexcept;
+  void push(const T& value);
+  void pop();
+  const T& head() const;
+};
+
+template <typename T>
+Stack<T>::Stack() {
+  this->size = 0;
+}
+
+template <typename T>
+void Stack<T>::push(T&& value) noexcept {
+  Element<T> element(value, head_value);
+  size++;
+  this->head_value.reset(element);
+}
+
+template <typename T>
+void Stack<T>::push(const T& value) {
+  Element<T> element(value, head_value);
+  size++;
+  this->head_value.reset(element);
+}
+
+template <typename T>
+void Stack<T>::pop() {
+  this->head_value.reset(head_value.getNext());
+}
+
+template <typename T>
+const T& Stack<T>::head() const {
+  return this->head_value.getValue();
+}
+
+#endif  // INCLUDE_HEADER_HPP_
